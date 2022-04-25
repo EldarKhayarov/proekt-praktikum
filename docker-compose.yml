@@ -1,0 +1,33 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./compose/app/Dockerfile
+    image: pi_trading_bot
+    container_name: pi_trading_bot_app
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.app
+    ports:
+      - 8000:8000
+    command: ["sh", "compose/app/start"]
+
+  postgres:
+    image: postgres
+    container_name: pi_trading_bot_postgres
+    restart: always
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5444:5432
+    env_file:
+      - ./.envs/.postgres

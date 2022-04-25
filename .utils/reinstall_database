@@ -1,0 +1,1 @@
+drop database pi_coursework; create database pi_coursework; create user pi_user with encrypted password 'password'; grant all privileges on database pi_coursework to pi_user;
